@@ -51,12 +51,12 @@ An ApiCharge Subscription is a time-bound, quality-of-service guaranteed access 
 
 The protocol flow usually consists of the following steps:
 
-- Client requests a signed Quote containing available services and their pricing
+- Client requests a signed Quote containing available services and their pricing (Quotes have an expiration and may be saved so this step may not be always necessary.)
 - Client selects a Route Quote and requests a Purchase Instruction
-- Client authorizes payment via Stellar Soroban blockchain
+- Client authorizes payment via Stellar Soroban blockchain, simply by signing the Purchase Instruction's "AuthorizationToSign" message.
 - Server issues a GrantedAccessToken representing the purchased ApiCharge Subscription
-- Client creates AccessTokens from the GrantedAccessToken to access services
-- ApiCharge validates tokens and enforces purchased quality-of-service parameters
+- Client creates AccessTokens from the GrantedAccessToken to access services, by signing them or signing them with a custom expiration.
+- ApiCharge validates tokens and enforces purchased quality-of-service parameters, maintaining persistent quality of service data for the duration of the GrantedAccessToken
 
 This approach solves the fundamental problems of API monetization by batching multiple service invocations into a single payment while maintaining the flexibility of pay-as-you-use models.
 

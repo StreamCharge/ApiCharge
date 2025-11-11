@@ -19,7 +19,7 @@ Welcome to ApiCharge!
 
 ## Technical Architecture for ML/AI improvements
 
-For the full architecture and detailed technical documents of the project, please refer to the [official documentation]( )
+For the full architecture and detailed technical documents of the project, please refer to the [official documentation](https://apicharge.com/Documentation/index.html)
 This section is for the benefit of SCF reviewers who need a distilled version of the platform, its changes, and direction for ML and AI use cases.
 
 ### Context

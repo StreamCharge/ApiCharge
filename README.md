@@ -38,6 +38,8 @@ The ApiCharge Desktop Apps are installed by users (in this submission, ML / AI d
 
 The same app is used to discover and consume services, or when the service is browsed to on the web, users can be deeplinked into the native app to install it or to the payment page. The app also allows the user to import services they know of privately. Once the services are in the local service catalogue, their offerings can be asked for an actual quote, and the service access purchased in-app, as the app is a native wallet with fiat->stable on ramps.
 
+It is important to note that the Wrapped Infrastructure ApiCharge Templates, Docker images that wrap popular servers by embedding ApiCharge into the image and gating traffic through it, always include some form of Stellar RPC server, with ports disabled by default. For this reason, the "base" image with no server wrapped is the same as the Wrapped Infrastructure Stellar RPC server (an example here: https://mainnet.stellar.apicharge.com ) , except with configuration set to expose Stellar. Consequently, any ApiCharge server, with the switch flipped, can become a Stellar RPC server in future. If Stablecoin-native UX is desired and enabled in that image, then all ApiCharge Stellar servers can allow the user to also generate passive USDc income as a Stellar Circle provider (or potentially any other stablecoin).
+
 There are various other architectures supported too - as the existing ApiCharge server binaries allow for clustered configuration behind load balancers, and other HA support.
 
 ### ApiCharge Network Component Architecture

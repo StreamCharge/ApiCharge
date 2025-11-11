@@ -63,7 +63,7 @@ This approach solves the fundamental problems of API monetization by batching mu
 After the changes in the submission roadmap, protocol variants will be on offer:
 
 - Client hits server service route
-- Client receives 402 HTTP with payment guidance in multiple forms, AI guidance,** x402** options, and even a directly signable payment auth message
+- Client receives 402 HTTP with payment guidance in multiple forms, AI guidance, **x402** options, and even a directly signable payment auth message
 - Client signs and posts to the ApiCharge endpoint of that server
 - Client receives and generates client-signed access tokens with duration of their choice
 

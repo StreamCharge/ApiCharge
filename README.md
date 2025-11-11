@@ -45,7 +45,7 @@ There are various other architectures supported too - as the existing ApiCharge 
 
 
 ### ApiCharge Protocol
-The core of ApiCharge is the ApiCharge Subscription Protocol, a unique approach to API monetization that combines the flexibility of micropayments with the predictability of subscriptions, offering unprecedented pricing control over network guaranteed qualities of service.
+The core of ApiCharge is the ApiCharge Subscription Protocol, a unique approach to API monetization that combines the flexibility of micropayments with the predictability of subscriptions, offering unprecedented pricing control over network guaranteed qualities of service. Unlike other HTTP micropayment protocols, ApiCharge also offers safe flexibility in pricing/service-level strategy control: Existing GrantedAccessTokens, mutually signed by client and server, and witnessed by the Soroban contract, specify the quality of service in the token data. This means that the Quote system can be modified without affecting existing on-going subscriptions. This avoids situations like the recent debacle with Cursor, where multi-thousand dollar access purchases were capped post-hoc, causing uproar and customer exodus.
 
 An ApiCharge Subscription is a time-bound, quality-of-service guaranteed access grant to a specific API route. Unlike traditional micropayments that charge per API call, ApiCharge Subscriptions provide access for a specific duration (minutes to months) with defined usage parameters.
 

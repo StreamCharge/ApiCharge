@@ -11,6 +11,8 @@ This Docker image bundles:
 
 ## Quick Start
 
+Either use the ApiCharge Management App here [ApiCharge Desktop App](https://apicharge.com/apicharge-desktop-app-preview.html) or follow the manual steps below:
+
 ```bash
 # 1. Pull the image
 docker pull apicharge/apicharge-stellar-rpc:mainnet

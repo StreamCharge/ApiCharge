@@ -1,0 +1,12 @@
+# soroban-rpc.toml for mainnet
+ADMIN_ENDPOINT = "0.0.0.0:8001"
+CAPTIVE_CORE_CONFIG_PATH = "/config/stellar-core.cfg"
+CAPTIVE_CORE_STORAGE_PATH = "/var/lib/stellar/captive-core"
+CAPTIVE_CORE_USE_DB = true
+DB_PATH = "/var/lib/stellar/soroban-rpc-db.sqlite"
+ENDPOINT = "0.0.0.0:8000"
+NETWORK_PASSPHRASE = "Public Global Stellar Network ; September 2015"
+HISTORY_ARCHIVE_URLS = ["https://history.stellar.org/prd/core-live/core_live_001", "https://history.stellar.org/prd/core-live/core_live_002", "https://history.stellar.org/prd/core-live/core_live_003"]
+HISTORY_RETENTION_WINDOW = 120960
+STELLAR_CAPTIVE_CORE_HTTP_PORT = 11626
+STELLAR_CORE_BINARY_PATH = "/usr/bin/stellar-core"

@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  apicharge-stellar-rpc:
+    image: apicharge/apicharge-stellar-rpc:mainnet
+    container_name: apicharge-stellar-rpc-mainnet
+    ports:
+      - "80:80"      # HTTP
+      - "443:443"    # HTTPS
+    volumes:
+      # TLS certificate - REQUIRED, must contain certificate.pfx
+      - ./certs:/certs:ro
+
+      # Stellar blockchain data - largest volume, grows over time
+      # Default 7-day retention requires ~160GB, see README for sizing
+      - stellar-data:/var/lib/stellar
+
+      # Redis persistence for token cache
+      - redis-data:/data/redis
+
+      # Configuration files (welcome.html, custom configs)
+      - ./config:/app/config
+
+      # Mount your customized appsettings.json
+      - ./appsettings.json:/app/appsettings.json:ro
+    env_file:
+      - .env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    restart: unless-stopped
+    networks:
+      - apicharge-network
+
+networks:
+  apicharge-network:
+    driver: bridge
+
+volumes:
+  stellar-data:
+    name: apicharge-stellar-data-mainnet
+  redis-data:
+    name: apicharge-redis-data-mainnet

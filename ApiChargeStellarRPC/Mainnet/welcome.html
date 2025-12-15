@@ -1,0 +1,128 @@
+<div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 32px 40px; color: #f0f6fc;">
+    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+        <div style="font-size: 56px; line-height: 1;">&#9734;</div>
+        <div>
+            <h1 style="margin: 0; font-size: 2rem; font-weight: 700; color: #fff;">Stellar RPC Node - Public Beta</h1>
+            <p style="margin: 6px 0 0 0; color: #8b949e; font-size: 1rem;">with Stablecoin-Native USDC/EURC Operations</p>
+        </div>
+    </div>
+
+    <p style="margin: 0 0 16px 0; line-height: 1.7; color: #c9d1d9; font-size: 1rem;">
+        This node provides full Stellar Soroban RPC access plus native stablecoin operations for
+        <strong style="color: #3fb950;">USDC</strong> and <strong style="color: #58a6ff;">EURC</strong> on the Stellar network.
+        Submit fee-sponsored transactions, activate new accounts, and query transaction status. This is a public beta and this server may be subject to frequent upgrades. Payments are final. By using this service, you accept all risks and liabilities associated with its use.
+    </p>
+
+    <p style="margin: 0 0 24px 0; line-height: 1.7; color: #c9d1d9; font-size: 1rem;">
+        This node offers both standard Stellar RPC functions via pass-through routes and a Stablecoin-Native UX for seamless fee-sponsored transactions.
+        The Docker image for this server will be released shortly, enabling anyone to become a monetising Stellar gateway—offer your own datacenter capacity to help build a USDC-native platform for all while earning.
+        Management tools will be updated in the very near future.
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid #30363d; border-radius: 10px; padding: 20px;">
+            <h4 style="margin: 0 0 10px 0; color: #3fb950; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2rem;">&#10003;</span> RPC Access
+            </h4>
+            <p style="margin: 0; font-size: 0.9rem; color: #8b949e; line-height: 1.5;">Full Soroban smart contract and classic transaction support via JSON-RPC</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid #30363d; border-radius: 10px; padding: 20px;">
+            <h4 style="margin: 0 0 10px 0; color: #58a6ff; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2rem;">&#10003;</span> Fee Sponsorship
+            </h4>
+            <p style="margin: 0; font-size: 0.9rem; color: #8b949e; line-height: 1.5;">Submit zero-fee inner transactions with automatic fee bump wrapping</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid #30363d; border-radius: 10px; padding: 20px;">
+            <h4 style="margin: 0 0 10px 0; color: #d29922; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2rem;">&#10003;</span> Account Activation
+            </h4>
+            <p style="margin: 0; font-size: 0.9rem; color: #8b949e; line-height: 1.5;">Create accounts with XLM base reserve and USDC/EURC trustlines pre-configured</p>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px;">
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid #30363d; border-radius: 10px; padding: 20px;">
+            <h4 style="margin: 0 0 12px 0; color: #f0f6fc; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2rem;">&#9658;</span> Stablecoin Native Example
+            </h4>
+            <video controls style="width: 100%; border-radius: 8px; background: #000;">
+                <source src="https://apicharge.blob.core.windows.net/$web/ApiChargeStableNative.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid #30363d; border-radius: 10px; padding: 20px;">
+            <h4 style="margin: 0 0 12px 0; color: #f0f6fc; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1.2rem;">&#9658;</span> Technical Integration
+            </h4>
+            <video controls style="width: 100%; border-radius: 8px; background: #000;">
+                <source src="https://apicharge.blob.core.windows.net/$web/ApiChargeProgrammaticIntegration.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- Python Example Section -->
+    <div style="margin-top: 24px; background: rgba(255,255,255,0.05); border: 1px solid #30363d; border-radius: 10px; padding: 24px;">
+        <div style="display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start;">
+            <div>
+                <h4 style="margin: 0 0 16px 0; color: #f0f6fc; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.2rem;">&#128013;</span> Python Example - Fee-Sponsored USDC Payment
+                </h4>
+                <div style="position: relative;">
+                    <pre style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin: 0; overflow-x: auto; font-size: 0.8rem; line-height: 1.5; color: #c9d1d9;"><code><span style="color: #8b949e;"># Install: pip install stellar-sdk requests</span>
+<span style="color: #ff7b72;">import</span> requests
+<span style="color: #ff7b72;">from</span> stellar_sdk <span style="color: #ff7b72;">import</span> Keypair, Network, TransactionBuilder, Asset
+
+SERVER <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"https://mainnet.stellar.apicharge.com"</span>
+USDC <span style="color: #ff7b72;">=</span> Asset(<span style="color: #a5d6ff;">"USDC"</span>, <span style="color: #a5d6ff;">"GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"</span>)
+
+<span style="color: #8b949e;"># 1. Get quote and purchase access token (see full example)</span>
+token <span style="color: #ff7b72;">=</span> purchase_access_token(quote, keypair)
+
+<span style="color: #8b949e;"># 2. Build zero-fee transaction</span>
+tx <span style="color: #ff7b72;">=</span> TransactionBuilder(account, network_passphrase<span style="color: #ff7b72;">=</span>Network.PUBLIC_NETWORK_PASSPHRASE, base_fee<span style="color: #ff7b72;">=</span><span style="color: #79c0ff;">0</span>)
+    .append_payment_op(recipient, USDC, <span style="color: #a5d6ff;">"1.00"</span>)
+    .build()
+tx.sign(keypair)
+
+<span style="color: #8b949e;"># 3. Submit - ApiCharge sponsors the fee!</span>
+requests.post(f<span style="color: #a5d6ff;">"{SERVER}/apicharge/stablecoin/submit-transaction"</span>,
+    headers<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"apicharge"</span>: token}, json<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"transactionXdr"</span>: tx.to_xdr()})</code></pre>
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('python-example-full').textContent).then(() => this.textContent = 'Copied!').catch(() => this.textContent = 'Failed')" style="position: absolute; top: 8px; right: 8px; background: #238636; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.75rem; cursor: pointer;">Copy</button>
+                </div>
+                <a href="https://apicharge.blob.core.windows.net/$web/stablecoin_example.py" download style="display: inline-block; margin-top: 12px; background: #238636; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 0.9rem; font-weight: 500;">Download Full Example</a>
+            </div>
+            <div style="color: #8b949e; font-size: 0.85rem; line-height: 1.6;">
+                <p style="margin: 0 0 12px 0;"><strong style="color: #c9d1d9;">How it works:</strong></p>
+                <ol style="margin: 0; padding-left: 20px;">
+                    <li style="margin-bottom: 8px;">Purchase an access token by signing a USDC payment to the server</li>
+                    <li style="margin-bottom: 8px;">Build your Stellar transaction with <code style="background: #161b22; padding: 2px 6px; border-radius: 4px;">fee=0</code></li>
+                    <li style="margin-bottom: 8px;">Submit via <code style="background: #161b22; padding: 2px 6px; border-radius: 4px;">/apicharge/stablecoin/submit-transaction</code></li>
+                    <li style="margin-bottom: 8px;">ApiCharge wraps it in a fee-bump and submits to the network</li>
+                </ol>
+                <p style="margin: 16px 0 8px 0;"><strong style="color: #c9d1d9;">For standard RPC calls:</strong></p>
+                <p style="margin: 0;">Purchase an RPC access token and use the <code style="background: #161b22; padding: 2px 6px; border-radius: 4px;">/soroban/developer/</code> pass-through route with the <code style="background: #161b22; padding: 2px 6px; border-radius: 4px;">apicharge</code> header for all your Stellar JSON-RPC calls.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Hidden full example for copy -->
+    <pre id="python-example-full" style="display: none;"># Install: pip install stellar-sdk requests
+import requests
+from stellar_sdk import Keypair, Network, TransactionBuilder, Asset
+
+SERVER = "https://mainnet.stellar.apicharge.com"
+USDC = Asset("USDC", "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN")
+
+# 1. Get quote and purchase access token (see full example)
+token = purchase_access_token(quote, keypair)
+
+# 2. Build zero-fee transaction
+tx = TransactionBuilder(account, network_passphrase=Network.PUBLIC_NETWORK_PASSPHRASE, base_fee=0)
+    .append_payment_op(recipient, USDC, "1.00")
+    .build()
+tx.sign(keypair)
+
+# 3. Submit - ApiCharge sponsors the fee!
+requests.post(f"{SERVER}/apicharge/stablecoin/submit-transaction",
+    headers={"apicharge": token}, json={"transactionXdr": tx.to_xdr()})</pre>
+</div>

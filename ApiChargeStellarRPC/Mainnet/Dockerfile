@@ -35,6 +35,15 @@ RUN dotnet publish "ApiChargePrototype.csproj" -c Release -o /app/publish \
 # Final stage - based on Stellar RPC
 FROM stellar/stellar-rpc:24.0.0
 
+# OCI Labels for Docker Hub
+LABEL org.opencontainers.image.title="ApiCharge Stellar RPC"
+LABEL org.opencontainers.image.description="Monetizable Stellar Soroban RPC node with built-in stablecoin payment processing"
+LABEL org.opencontainers.image.vendor="ApiCharge"
+LABEL org.opencontainers.image.url="https://apicharge.com"
+LABEL org.opencontainers.image.documentation="https://apicharge.com/Documentation/index.html"
+LABEL org.opencontainers.image.source="https://hub.docker.com/r/apicharge/apicharge-stellar-rpc"
+LABEL org.opencontainers.image.licenses="Proprietary - See https://apicharge.com for terms"
+
 # Install necessary utilities, ICU libraries, Redis, and dropbear SSH server
 RUN apt-get update && \
     apt-get install -y \

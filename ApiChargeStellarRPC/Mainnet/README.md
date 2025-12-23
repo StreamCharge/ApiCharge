@@ -243,6 +243,27 @@ Redis and the RPC node both consume memory. Ensure at least 16GB RAM.
 - **Monitor fund recipient** - Regularly check your balance
 - **Keep certificates valid** - Set up renewal reminders
 
+## Disclaimer
+
+THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. THE AUTHORS AND COPYRIGHT HOLDERS ARE NOT LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.
+
+This software facilitates cryptocurrency transactions on the Stellar network. Users are solely responsible for:
+
+- Securing signing keys, certificates, and credentials
+- Compliance with all applicable laws and regulations in their jurisdiction
+- Any financial losses resulting from misconfiguration, misuse, or security breaches
+- Ensuring adequate backups and disaster recovery procedures
+
+By deploying this software, you acknowledge that you have read and agree to the [ApiCharge Terms of Service](https://apicharge.com) and accept all risks associated with operating a financial services node.
+
+**This is beta software.** Features may change without notice. Use in production environments is at your own risk.
+
+## License
+
+Copyright © 2025 ApiCharge. All rights reserved.
+
+See [ApiCharge Terms of Service](https://apicharge.com) for usage terms.
+
 ## Support
 
 - Documentation: https://apicharge.com/Documentation/index.html

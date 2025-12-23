@@ -1,3 +1,27 @@
+<style>
+    .code-block pre::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    .code-block pre::-webkit-scrollbar-track {
+        background: #161b22;
+        border-radius: 4px;
+    }
+    .code-block pre::-webkit-scrollbar-thumb {
+        background: #30363d;
+        border-radius: 4px;
+    }
+    .code-block pre::-webkit-scrollbar-thumb:hover {
+        background: #484f58;
+    }
+    .code-block pre::-webkit-scrollbar-corner {
+        background: #161b22;
+    }
+    .code-block pre {
+        scrollbar-width: thin;
+        scrollbar-color: #30363d #161b22;
+    }
+</style>
 <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 32px 40px; color: #f0f6fc;">
     <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
         <div style="font-size: 56px; line-height: 1;">&#9734;</div>
@@ -15,8 +39,8 @@
 
     <p style="margin: 0 0 24px 0; line-height: 1.7; color: #c9d1d9; font-size: 1rem;">
         This node offers both standard Stellar RPC functions via pass-through routes and a Stablecoin-Native UX for seamless fee-sponsored transactions.
-        The Docker image for this server will be released shortly, enabling anyone to become a monetising Stellar gateway—offer your own datacenter capacity to help build a USDC-native platform for all while earning.
-        Management tools will be updated in the very near future.
+        The Docker image for this server is available as <a href="https://hub.docker.com/r/apicharge/apicharge-stellar-rpc" target="_blank" style="color: #58a6ff; text-decoration: none;"><code style="background: rgba(88, 166, 255, 0.15); padding: 2px 6px; border-radius: 4px;">apicharge/apicharge-stellar-rpc:mainnet</code></a> on Docker Hub, enabling anyone to become a monetising Stellar gateway—offer your own datacenter capacity to help build a USDC-native platform for all while earning.
+        Management tools are available in the downloads section below.
     </p>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
@@ -61,68 +85,491 @@
         </div>
     </div>
 
-    <!-- Python Example Section -->
+    <!-- Code Examples Carousel Section -->
     <div style="margin-top: 24px; background: rgba(255,255,255,0.05); border: 1px solid #30363d; border-radius: 10px; padding: 24px;">
-        <div style="display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start;">
-            <div>
-                <h4 style="margin: 0 0 16px 0; color: #f0f6fc; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 1.2rem;">&#128013;</span> Python Example - Fee-Sponsored USDC Payment
-                </h4>
-                <div style="position: relative;">
-                    <pre style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin: 0; overflow-x: auto; font-size: 0.8rem; line-height: 1.5; color: #c9d1d9;"><code><span style="color: #8b949e;"># Install: pip install stellar-sdk requests</span>
+        <h3 style="margin: 0 0 16px 0; color: #f0f6fc; font-size: 1.2rem;">Integration Examples</h3>
+
+        <!-- Carousel Navigation -->
+        <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+            <button onclick="showExample('rpc')" id="btn-rpc" class="carousel-btn" style="background: #238636; color: #fff; border: none; border-radius: 6px; padding: 8px 16px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">RPC Passthrough</button>
+            <button onclick="showExample('activate-basic')" id="btn-activate-basic" class="carousel-btn" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 6px; padding: 8px 16px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">Basic Activation</button>
+            <button onclick="showExample('activate-full')" id="btn-activate-full" class="carousel-btn" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 6px; padding: 8px 16px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">Full Activation</button>
+            <button onclick="showExample('payment')" id="btn-payment" class="carousel-btn" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 6px; padding: 8px 16px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">Fee-Sponsored Payment</button>
+        </div>
+
+        <!-- Language Toggle -->
+        <div style="display: flex; gap: 4px; margin-bottom: 16px;">
+            <button onclick="showLang('python')" id="btn-python" class="lang-btn" style="background: #3572A5; color: #fff; border: none; border-radius: 6px 0 0 6px; padding: 6px 16px; font-size: 0.8rem; cursor: pointer;">Python</button>
+            <button onclick="showLang('javascript')" id="btn-javascript" class="lang-btn" style="background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 0 6px 6px 0; padding: 6px 16px; font-size: 0.8rem; cursor: pointer;">JavaScript</button>
+        </div>
+
+        <!-- Example 1: RPC Passthrough -->
+        <div id="example-rpc" class="example-panel" style="display: block;">
+            <div style="display: grid; grid-template-columns: 1fr 280px; gap: 24px; align-items: start;">
+                <div>
+                    <h4 style="margin: 0 0 12px 0; color: #f0f6fc; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                        <span style="color: #58a6ff;">&#128274;</span> RPC Passthrough - Standard Stellar RPC Calls
+                    </h4>
+                    <div id="code-rpc-python" class="code-block" style="position: relative;">
+                        <button onclick="copyCode('rpc', 'python')" style="position: absolute; top: 8px; right: 8px; background: #238636; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; z-index: 10;">Copy</button>
+                        <pre style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; padding-top: 40px; margin: 0; overflow-x: auto; font-size: 0.75rem; line-height: 1.5; color: #c9d1d9; max-height: 320px; overflow-y: auto;"><code><span style="color: #8b949e;"># RPC Passthrough - No fee sponsorship, standard JSON-RPC calls</span>
+<span style="color: #8b949e;"># pip install stellar-sdk requests</span>
+
+<span style="color: #ff7b72;">import</span> requests, json
+<span style="color: #ff7b72;">from</span> stellar_sdk <span style="color: #ff7b72;">import</span> Keypair
+
+SERVER <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"https://mainnet.stellar.apicharge.com"</span>
+SECRET_KEY <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"YOUR_SECRET_KEY"</span>  <span style="color: #8b949e;"># Replace with your key</span>
+
+keypair <span style="color: #ff7b72;">=</span> Keypair.from_secret(SECRET_KEY)
+
+<span style="color: #8b949e;"># 1. Get quote for RPC access</span>
+quotes <span style="color: #ff7b72;">=</span> requests.get(f<span style="color: #a5d6ff;">"{SERVER}/apicharge/quote"</span>).json()
+rpc_quote <span style="color: #ff7b72;">=</span> next(q <span style="color: #ff7b72;">for</span> q <span style="color: #ff7b72;">in</span> quotes[<span style="color: #a5d6ff;">"quotes"</span>]
+                   <span style="color: #ff7b72;">if</span> <span style="color: #a5d6ff;">"stellar-rpc-developer"</span> <span style="color: #ff7b72;">in</span> q[<span style="color: #a5d6ff;">"signableEntity"</span>][<span style="color: #a5d6ff;">"routeId"</span>])
+
+<span style="color: #8b949e;"># 2. Purchase access token (see full example for details)</span>
+token <span style="color: #ff7b72;">=</span> purchase_access_token(SERVER, rpc_quote, keypair)
+
+<span style="color: #8b949e;"># 3. Make RPC calls via passthrough route</span>
+rpc_request <span style="color: #ff7b72;">=</span> {
+    <span style="color: #a5d6ff;">"jsonrpc"</span>: <span style="color: #a5d6ff;">"2.0"</span>,
+    <span style="color: #a5d6ff;">"id"</span>: <span style="color: #79c0ff;">1</span>,
+    <span style="color: #a5d6ff;">"method"</span>: <span style="color: #a5d6ff;">"getHealth"</span>
+}
+
+response <span style="color: #ff7b72;">=</span> requests.post(
+    f<span style="color: #a5d6ff;">"{SERVER}/soroban/developer/"</span>,
+    headers<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"apicharge"</span>: token, <span style="color: #a5d6ff;">"Content-Type"</span>: <span style="color: #a5d6ff;">"application/json"</span>},
+    json<span style="color: #ff7b72;">=</span>rpc_request
+)
+print(response.json())  <span style="color: #8b949e;"># {"jsonrpc": "2.0", "result": {"status": "healthy"}, ...}</span></code></pre>
+                    </div>
+                    <div id="code-rpc-javascript" class="code-block" style="position: relative; display: none;">
+                        <button onclick="copyCode('rpc', 'javascript')" style="position: absolute; top: 8px; right: 8px; background: #238636; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; z-index: 10;">Copy</button>
+                        <pre style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; padding-top: 40px; margin: 0; overflow-x: auto; font-size: 0.75rem; line-height: 1.5; color: #c9d1d9; max-height: 320px; overflow-y: auto;"><code><span style="color: #8b949e;">// RPC Passthrough - No fee sponsorship, standard JSON-RPC calls</span>
+<span style="color: #8b949e;">// npm install @stellar/stellar-sdk</span>
+
+<span style="color: #ff7b72;">const</span> { Keypair } <span style="color: #ff7b72;">=</span> require(<span style="color: #a5d6ff;">'@stellar/stellar-sdk'</span>);
+
+<span style="color: #ff7b72;">const</span> SERVER <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">'https://mainnet.stellar.apicharge.com'</span>;
+<span style="color: #ff7b72;">const</span> SECRET_KEY <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">'YOUR_SECRET_KEY'</span>;  <span style="color: #8b949e;">// Replace with your key</span>
+
+<span style="color: #ff7b72;">const</span> keypair <span style="color: #ff7b72;">=</span> Keypair.fromSecret(SECRET_KEY);
+
+<span style="color: #8b949e;">// 1. Get quote for RPC access</span>
+<span style="color: #ff7b72;">const</span> quotes <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> fetch(`${SERVER}/apicharge/quote`).then(r <span style="color: #ff7b72;">=></span> r.json());
+<span style="color: #ff7b72;">const</span> rpcQuote <span style="color: #ff7b72;">=</span> quotes.quotes.find(q <span style="color: #ff7b72;">=></span>
+    q.signableEntity.routeId.includes(<span style="color: #a5d6ff;">'stellar-rpc-developer'</span>));
+
+<span style="color: #8b949e;">// 2. Purchase access token (see full example for details)</span>
+<span style="color: #ff7b72;">const</span> token <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> purchaseAccessToken(SERVER, rpcQuote, keypair);
+
+<span style="color: #8b949e;">// 3. Make RPC calls via passthrough route</span>
+<span style="color: #ff7b72;">const</span> response <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> fetch(`${SERVER}/soroban/developer/`, {
+    method: <span style="color: #a5d6ff;">'POST'</span>,
+    headers: {
+        <span style="color: #a5d6ff;">'apicharge'</span>: token,
+        <span style="color: #a5d6ff;">'Content-Type'</span>: <span style="color: #a5d6ff;">'application/json'</span>
+    },
+    body: JSON.stringify({
+        jsonrpc: <span style="color: #a5d6ff;">'2.0'</span>,
+        id: <span style="color: #79c0ff;">1</span>,
+        method: <span style="color: #a5d6ff;">'getHealth'</span>
+    })
+});
+console.log(<span style="color: #ff7b72;">await</span> response.json()); <span style="color: #8b949e;">// {jsonrpc: "2.0", result: {status: "healthy"}}</span></code></pre>
+                    </div>
+                    <a href="rpc_passthrough_example.py" download id="download-rpc" style="display: inline-block; margin-top: 12px; background: #238636; color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">Download Full Example</a>
+                </div>
+                <div style="color: #8b949e; font-size: 0.82rem; line-height: 1.6;">
+                    <p style="margin: 0 0 10px 0;"><strong style="color: #58a6ff;">RPC Passthrough</strong></p>
+                    <p style="margin: 0 0 8px 0;">Standard Stellar JSON-RPC access without fee sponsorship. Use for:</p>
+                    <ul style="margin: 0 0 12px 0; padding-left: 18px;">
+                        <li>getHealth, getLatestLedger</li>
+                        <li>getLedgerEntries</li>
+                        <li>simulateTransaction</li>
+                        <li>sendTransaction</li>
+                    </ul>
+                    <p style="margin: 0;"><strong style="color: #c9d1d9;">Route:</strong> <code style="background: #161b22; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem;">/soroban/developer/</code></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example 2: Basic Account Activation -->
+        <div id="example-activate-basic" class="example-panel" style="display: none;">
+            <div style="display: grid; grid-template-columns: 1fr 280px; gap: 24px; align-items: start;">
+                <div>
+                    <h4 style="margin: 0 0 12px 0; color: #f0f6fc; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                        <span style="color: #d29922;">&#128100;</span> Basic Account Activation - Phase 1 Only
+                    </h4>
+                    <div id="code-activate-basic-python" class="code-block" style="position: relative;">
+                        <button onclick="copyCode('activate-basic', 'python')" style="position: absolute; top: 8px; right: 8px; background: #238636; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; z-index: 10;">Copy</button>
+                        <pre style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; padding-top: 40px; margin: 0; overflow-x: auto; font-size: 0.75rem; line-height: 1.5; color: #c9d1d9; max-height: 320px; overflow-y: auto;"><code><span style="color: #8b949e;"># Basic Account Activation - Creates account with XLM only</span>
+<span style="color: #8b949e;"># pip install stellar-sdk requests</span>
+
+<span style="color: #ff7b72;">import</span> requests
+<span style="color: #ff7b72;">from</span> stellar_sdk <span style="color: #ff7b72;">import</span> Keypair
+
+SERVER <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"https://mainnet.stellar.apicharge.com"</span>
+SECRET_KEY <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"YOUR_SECRET_KEY"</span>  <span style="color: #8b949e;"># Payer's secret key</span>
+
+payer <span style="color: #ff7b72;">=</span> Keypair.from_secret(SECRET_KEY)
+
+<span style="color: #8b949e;"># Generate new account to activate</span>
+new_account <span style="color: #ff7b72;">=</span> Keypair.random()
+print(f<span style="color: #a5d6ff;">"New account: {new_account.public_key}"</span>)
+
+<span style="color: #8b949e;"># 1. Get quote and purchase token</span>
+quotes <span style="color: #ff7b72;">=</span> requests.get(f<span style="color: #a5d6ff;">"{SERVER}/apicharge/quote"</span>).json()
+activate_quote <span style="color: #ff7b72;">=</span> next(q <span style="color: #ff7b72;">for</span> q <span style="color: #ff7b72;">in</span> quotes[<span style="color: #a5d6ff;">"quotes"</span>]
+                       <span style="color: #ff7b72;">if</span> <span style="color: #a5d6ff;">"stablecoin-activate-account"</span> <span style="color: #ff7b72;">in</span> q[<span style="color: #a5d6ff;">"signableEntity"</span>][<span style="color: #a5d6ff;">"routeId"</span>])
+token <span style="color: #ff7b72;">=</span> purchase_access_token(SERVER, activate_quote, payer)
+
+<span style="color: #8b949e;"># 2. Call activate-account (Phase 1)</span>
+response <span style="color: #ff7b72;">=</span> requests.post(
+    f<span style="color: #a5d6ff;">"{SERVER}/apicharge/stablecoin/activate-account"</span>,
+    headers<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"apicharge"</span>: token},
+    json<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"publicKey"</span>: new_account.public_key}
+)
+result <span style="color: #ff7b72;">=</span> response.json()
+
+print(f<span style="color: #a5d6ff;">"Status: {result['status']}"</span>)
+print(f<span style="color: #a5d6ff;">"TX Hash: {result['transactionHash']}"</span>)
+<span style="color: #8b949e;"># Account now exists with XLM base reserve!</span>
+<span style="color: #8b949e;"># Trustlines NOT established - use Full Activation for that</span></code></pre>
+                    </div>
+                    <div id="code-activate-basic-javascript" class="code-block" style="position: relative; display: none;">
+                        <button onclick="copyCode('activate-basic', 'javascript')" style="position: absolute; top: 8px; right: 8px; background: #238636; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; z-index: 10;">Copy</button>
+                        <pre style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; padding-top: 40px; margin: 0; overflow-x: auto; font-size: 0.75rem; line-height: 1.5; color: #c9d1d9; max-height: 320px; overflow-y: auto;"><code><span style="color: #8b949e;">// Basic Account Activation - Creates account with XLM only</span>
+<span style="color: #8b949e;">// npm install @stellar/stellar-sdk</span>
+
+<span style="color: #ff7b72;">const</span> { Keypair } <span style="color: #ff7b72;">=</span> require(<span style="color: #a5d6ff;">'@stellar/stellar-sdk'</span>);
+
+<span style="color: #ff7b72;">const</span> SERVER <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">'https://mainnet.stellar.apicharge.com'</span>;
+<span style="color: #ff7b72;">const</span> SECRET_KEY <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">'YOUR_SECRET_KEY'</span>;  <span style="color: #8b949e;">// Payer's secret key</span>
+
+<span style="color: #ff7b72;">const</span> payer <span style="color: #ff7b72;">=</span> Keypair.fromSecret(SECRET_KEY);
+
+<span style="color: #8b949e;">// Generate new account to activate</span>
+<span style="color: #ff7b72;">const</span> newAccount <span style="color: #ff7b72;">=</span> Keypair.random();
+console.log(`New account: ${newAccount.publicKey()}`);
+
+<span style="color: #8b949e;">// 1. Get quote and purchase token</span>
+<span style="color: #ff7b72;">const</span> quotes <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> fetch(`${SERVER}/apicharge/quote`).then(r <span style="color: #ff7b72;">=></span> r.json());
+<span style="color: #ff7b72;">const</span> activateQuote <span style="color: #ff7b72;">=</span> quotes.quotes.find(q <span style="color: #ff7b72;">=></span>
+    q.signableEntity.routeId.includes(<span style="color: #a5d6ff;">'stablecoin-activate-account'</span>));
+<span style="color: #ff7b72;">const</span> token <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> purchaseAccessToken(SERVER, activateQuote, payer);
+
+<span style="color: #8b949e;">// 2. Call activate-account (Phase 1)</span>
+<span style="color: #ff7b72;">const</span> response <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> fetch(`${SERVER}/apicharge/stablecoin/activate-account`, {
+    method: <span style="color: #a5d6ff;">'POST'</span>,
+    headers: { <span style="color: #a5d6ff;">'apicharge'</span>: token, <span style="color: #a5d6ff;">'Content-Type'</span>: <span style="color: #a5d6ff;">'application/json'</span> },
+    body: JSON.stringify({ publicKey: newAccount.publicKey() })
+});
+<span style="color: #ff7b72;">const</span> result <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> response.json();
+
+console.log(`Status: ${result.status}`);
+console.log(`TX Hash: ${result.transactionHash}`);
+<span style="color: #8b949e;">// Account now exists with XLM base reserve!</span></code></pre>
+                    </div>
+                    <a href="activate_account_basic_example.py" download id="download-activate-basic" style="display: inline-block; margin-top: 12px; background: #238636; color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">Download Full Example</a>
+                </div>
+                <div style="color: #8b949e; font-size: 0.82rem; line-height: 1.6;">
+                    <p style="margin: 0 0 10px 0;"><strong style="color: #d29922;">Basic Activation</strong></p>
+                    <p style="margin: 0 0 8px 0;">Creates a new Stellar account with XLM base reserve. Does NOT establish trustlines.</p>
+                    <p style="margin: 0 0 8px 0;"><strong style="color: #c9d1d9;">Phase 1 only:</strong></p>
+                    <ul style="margin: 0 0 12px 0; padding-left: 18px;">
+                        <li>Server creates account</li>
+                        <li>Funds with base reserve XLM</li>
+                        <li>Returns tx hash</li>
+                    </ul>
+                    <p style="margin: 0;"><strong style="color: #c9d1d9;">Use when:</strong> You only need an account, not trustlines</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example 3: Full Account Activation -->
+        <div id="example-activate-full" class="example-panel" style="display: none;">
+            <div style="display: grid; grid-template-columns: 1fr 280px; gap: 24px; align-items: start;">
+                <div>
+                    <h4 style="margin: 0 0 12px 0; color: #f0f6fc; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                        <span style="color: #3fb950;">&#128100;&#10003;</span> Full Account Activation - With USDC/EURC Trustlines
+                    </h4>
+                    <div id="code-activate-full-python" class="code-block" style="position: relative;">
+                        <button onclick="copyCode('activate-full', 'python')" style="position: absolute; top: 8px; right: 8px; background: #238636; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; z-index: 10;">Copy</button>
+                        <pre style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; padding-top: 40px; margin: 0; overflow-x: auto; font-size: 0.75rem; line-height: 1.5; color: #c9d1d9; max-height: 320px; overflow-y: auto;"><code><span style="color: #8b949e;"># Full Account Activation - Creates account + USDC/EURC trustlines</span>
+<span style="color: #ff7b72;">import</span> requests
+<span style="color: #ff7b72;">from</span> stellar_sdk <span style="color: #ff7b72;">import</span> Keypair, TransactionBuilder, Network
+
+SERVER <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"https://mainnet.stellar.apicharge.com"</span>
+SECRET_KEY <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"YOUR_SECRET_KEY"</span>
+
+payer <span style="color: #ff7b72;">=</span> Keypair.from_secret(SECRET_KEY)
+new_account <span style="color: #ff7b72;">=</span> Keypair.random()
+
+<span style="color: #8b949e;"># Phase 1: Create account</span>
+token <span style="color: #ff7b72;">=</span> purchase_access_token(SERVER, activate_quote, payer)
+phase1 <span style="color: #ff7b72;">=</span> requests.post(
+    f<span style="color: #a5d6ff;">"{SERVER}/apicharge/stablecoin/activate-account"</span>,
+    headers<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"apicharge"</span>: token},
+    json<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"publicKey"</span>: new_account.public_key}
+).json()
+
+<span style="color: #8b949e;"># Phase 2: Sign trustline transaction and submit</span>
+<span style="color: #ff7b72;">if</span> phase1.get(<span style="color: #a5d6ff;">"ticket"</span>) <span style="color: #ff7b72;">and</span> phase1.get(<span style="color: #a5d6ff;">"trustlineTransactionXdr"</span>):
+    <span style="color: #8b949e;"># Decode transaction, sign with NEW account's key</span>
+    tx <span style="color: #ff7b72;">=</span> TransactionBuilder.from_xdr(
+        phase1[<span style="color: #a5d6ff;">"trustlineTransactionXdr"</span>],
+        network_passphrase<span style="color: #ff7b72;">=</span>Network.PUBLIC_NETWORK_PASSPHRASE
+    )
+    tx.sign(new_account)
+
+    <span style="color: #8b949e;"># Submit Phase 2</span>
+    phase2 <span style="color: #ff7b72;">=</span> requests.post(
+        f<span style="color: #a5d6ff;">"{SERVER}/apicharge/stablecoin/activate-account"</span>,
+        headers<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"apicharge"</span>: token},
+        json<span style="color: #ff7b72;">=</span>{
+            <span style="color: #a5d6ff;">"publicKey"</span>: new_account.public_key,
+            <span style="color: #a5d6ff;">"ticket"</span>: phase1[<span style="color: #a5d6ff;">"ticket"</span>],
+            <span style="color: #a5d6ff;">"callerAccount"</span>: new_account.public_key,
+            <span style="color: #a5d6ff;">"signedEnvelopeXdr"</span>: tx.to_xdr()
+        }
+    )
+    print(<span style="color: #a5d6ff;">"Trustlines established!"</span> <span style="color: #ff7b72;">if</span> phase2.ok <span style="color: #ff7b72;">else</span> phase2.text)</code></pre>
+                    </div>
+                    <div id="code-activate-full-javascript" class="code-block" style="position: relative; display: none;">
+                        <button onclick="copyCode('activate-full', 'javascript')" style="position: absolute; top: 8px; right: 8px; background: #238636; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; z-index: 10;">Copy</button>
+                        <pre style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; padding-top: 40px; margin: 0; overflow-x: auto; font-size: 0.75rem; line-height: 1.5; color: #c9d1d9; max-height: 320px; overflow-y: auto;"><code><span style="color: #8b949e;">// Full Account Activation - Creates account + USDC/EURC trustlines</span>
+<span style="color: #ff7b72;">const</span> { Keypair, TransactionBuilder, Networks } <span style="color: #ff7b72;">=</span> require(<span style="color: #a5d6ff;">'@stellar/stellar-sdk'</span>);
+
+<span style="color: #ff7b72;">const</span> SERVER <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">'https://mainnet.stellar.apicharge.com'</span>;
+<span style="color: #ff7b72;">const</span> SECRET_KEY <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">'YOUR_SECRET_KEY'</span>;
+
+<span style="color: #ff7b72;">const</span> payer <span style="color: #ff7b72;">=</span> Keypair.fromSecret(SECRET_KEY);
+<span style="color: #ff7b72;">const</span> newAccount <span style="color: #ff7b72;">=</span> Keypair.random();
+
+<span style="color: #8b949e;">// Phase 1: Create account</span>
+<span style="color: #ff7b72;">const</span> token <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> purchaseAccessToken(SERVER, activateQuote, payer);
+<span style="color: #ff7b72;">const</span> phase1 <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> fetch(`${SERVER}/apicharge/stablecoin/activate-account`, {
+    method: <span style="color: #a5d6ff;">'POST'</span>,
+    headers: { <span style="color: #a5d6ff;">'apicharge'</span>: token, <span style="color: #a5d6ff;">'Content-Type'</span>: <span style="color: #a5d6ff;">'application/json'</span> },
+    body: JSON.stringify({ publicKey: newAccount.publicKey() })
+}).then(r <span style="color: #ff7b72;">=></span> r.json());
+
+<span style="color: #8b949e;">// Phase 2: Sign trustline transaction and submit</span>
+<span style="color: #ff7b72;">if</span> (phase1.ticket && phase1.trustlineTransactionXdr) {
+    <span style="color: #8b949e;">// Decode and sign with NEW account's key</span>
+    <span style="color: #ff7b72;">const</span> tx <span style="color: #ff7b72;">=</span> TransactionBuilder.fromXDR(
+        phase1.trustlineTransactionXdr,
+        Networks.PUBLIC
+    );
+    tx.sign(newAccount);
+
+    <span style="color: #8b949e;">// Submit Phase 2</span>
+    <span style="color: #ff7b72;">const</span> phase2 <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> fetch(`${SERVER}/apicharge/stablecoin/activate-account`, {
+        method: <span style="color: #a5d6ff;">'POST'</span>,
+        headers: { <span style="color: #a5d6ff;">'apicharge'</span>: token, <span style="color: #a5d6ff;">'Content-Type'</span>: <span style="color: #a5d6ff;">'application/json'</span> },
+        body: JSON.stringify({
+            publicKey: newAccount.publicKey(),
+            ticket: phase1.ticket,
+            callerAccount: newAccount.publicKey(),
+            signedEnvelopeXdr: tx.toXDR()
+        })
+    });
+    console.log(phase2.ok ? <span style="color: #a5d6ff;">'Trustlines established!'</span> : <span style="color: #ff7b72;">await</span> phase2.text());
+}</code></pre>
+                    </div>
+                    <a href="activate_account_full_example.py" download id="download-activate-full" style="display: inline-block; margin-top: 12px; background: #238636; color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">Download Full Example</a>
+                </div>
+                <div style="color: #8b949e; font-size: 0.82rem; line-height: 1.6;">
+                    <p style="margin: 0 0 10px 0;"><strong style="color: #3fb950;">Full Activation</strong></p>
+                    <p style="margin: 0 0 8px 0;">Complete 2-phase activation:</p>
+                    <p style="margin: 0 0 4px 0;"><strong style="color: #c9d1d9;">Phase 1:</strong></p>
+                    <ul style="margin: 0 0 8px 0; padding-left: 18px;">
+                        <li>Creates account with XLM</li>
+                        <li>Returns ticket + unsigned trustline TX</li>
+                    </ul>
+                    <p style="margin: 0 0 4px 0;"><strong style="color: #c9d1d9;">Phase 2:</strong></p>
+                    <ul style="margin: 0 0 12px 0; padding-left: 18px;">
+                        <li>New account signs trustline TX</li>
+                        <li>Server fee-bumps and submits</li>
+                        <li>USDC + EURC trustlines ready!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example 4: Fee-Sponsored Payment -->
+        <div id="example-payment" class="example-panel" style="display: none;">
+            <div style="display: grid; grid-template-columns: 1fr 280px; gap: 24px; align-items: start;">
+                <div>
+                    <h4 style="margin: 0 0 12px 0; color: #f0f6fc; font-size: 1rem; display: flex; align-items: center; gap: 8px;">
+                        <span style="color: #3fb950;">&#128176;</span> Fee-Sponsored USDC Payment
+                    </h4>
+                    <div id="code-payment-python" class="code-block" style="position: relative;">
+                        <button onclick="copyCode('payment', 'python')" style="position: absolute; top: 8px; right: 8px; background: #238636; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; z-index: 10;">Copy</button>
+                        <pre style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; padding-top: 40px; margin: 0; overflow-x: auto; font-size: 0.75rem; line-height: 1.5; color: #c9d1d9; max-height: 320px; overflow-y: auto;"><code><span style="color: #8b949e;"># Fee-Sponsored USDC Payment - Zero network fees for sender</span>
 <span style="color: #ff7b72;">import</span> requests
 <span style="color: #ff7b72;">from</span> stellar_sdk <span style="color: #ff7b72;">import</span> Keypair, Network, TransactionBuilder, Asset
 
 SERVER <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"https://mainnet.stellar.apicharge.com"</span>
 USDC <span style="color: #ff7b72;">=</span> Asset(<span style="color: #a5d6ff;">"USDC"</span>, <span style="color: #a5d6ff;">"GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"</span>)
 
-<span style="color: #8b949e;"># 1. Get quote and purchase access token (see full example)</span>
-token <span style="color: #ff7b72;">=</span> purchase_access_token(quote, keypair)
+SECRET_KEY <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"YOUR_SECRET_KEY"</span>
+RECIPIENT <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"GXXXX..."</span>  <span style="color: #8b949e;"># Recipient public key</span>
+AMOUNT <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">"1.00"</span>
 
-<span style="color: #8b949e;"># 2. Build zero-fee transaction</span>
-tx <span style="color: #ff7b72;">=</span> TransactionBuilder(account, network_passphrase<span style="color: #ff7b72;">=</span>Network.PUBLIC_NETWORK_PASSPHRASE, base_fee<span style="color: #ff7b72;">=</span><span style="color: #79c0ff;">0</span>)
-    .append_payment_op(recipient, USDC, <span style="color: #a5d6ff;">"1.00"</span>)
-    .build()
+keypair <span style="color: #ff7b72;">=</span> Keypair.from_secret(SECRET_KEY)
+
+<span style="color: #8b949e;"># 1. Get quote and purchase token</span>
+quotes <span style="color: #ff7b72;">=</span> requests.get(f<span style="color: #a5d6ff;">"{SERVER}/apicharge/quote"</span>).json()
+submit_quote <span style="color: #ff7b72;">=</span> next(q <span style="color: #ff7b72;">for</span> q <span style="color: #ff7b72;">in</span> quotes[<span style="color: #a5d6ff;">"quotes"</span>]
+                     <span style="color: #ff7b72;">if</span> <span style="color: #a5d6ff;">"stablecoin-submit-classic-tx"</span> <span style="color: #ff7b72;">in</span> q[<span style="color: #a5d6ff;">"signableEntity"</span>][<span style="color: #a5d6ff;">"routeId"</span>])
+token <span style="color: #ff7b72;">=</span> purchase_access_token(SERVER, submit_quote, keypair)
+
+<span style="color: #8b949e;"># 2. Build ZERO-FEE transaction</span>
+sequence <span style="color: #ff7b72;">=</span> get_account_sequence(keypair.public_key)
+tx <span style="color: #ff7b72;">=</span> TransactionBuilder(
+    source_account<span style="color: #ff7b72;">=</span>Account(keypair.public_key, sequence),
+    network_passphrase<span style="color: #ff7b72;">=</span>Network.PUBLIC_NETWORK_PASSPHRASE,
+    base_fee<span style="color: #ff7b72;">=</span><span style="color: #79c0ff;">0</span>  <span style="color: #8b949e;"># ZERO FEE!</span>
+).append_payment_op(RECIPIENT, USDC, AMOUNT).set_timeout(<span style="color: #79c0ff;">300</span>).build()
 tx.sign(keypair)
 
-<span style="color: #8b949e;"># 3. Submit - ApiCharge sponsors the fee!</span>
-requests.post(f<span style="color: #a5d6ff;">"{SERVER}/apicharge/stablecoin/submit-transaction"</span>,
-    headers<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"apicharge"</span>: token}, json<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"transactionXdr"</span>: tx.to_xdr()})</code></pre>
-                    <button onclick="navigator.clipboard.writeText(document.getElementById('python-example-full').textContent).then(() => this.textContent = 'Copied!').catch(() => this.textContent = 'Failed')" style="position: absolute; top: 8px; right: 8px; background: #238636; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.75rem; cursor: pointer;">Copy</button>
+<span style="color: #8b949e;"># 3. Submit - ApiCharge sponsors the network fee!</span>
+result <span style="color: #ff7b72;">=</span> requests.post(
+    f<span style="color: #a5d6ff;">"{SERVER}/apicharge/stablecoin/submit-transaction"</span>,
+    headers<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"apicharge"</span>: token},
+    json<span style="color: #ff7b72;">=</span>{<span style="color: #a5d6ff;">"transactionXdr"</span>: tx.to_xdr()}
+).json()
+print(f<span style="color: #a5d6ff;">"TX Hash: {result['transactionHash']}"</span>)</code></pre>
+                    </div>
+                    <div id="code-payment-javascript" class="code-block" style="position: relative; display: none;">
+                        <button onclick="copyCode('payment', 'javascript')" style="position: absolute; top: 8px; right: 8px; background: #238636; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.7rem; cursor: pointer; z-index: 10;">Copy</button>
+                        <pre style="background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; padding-top: 40px; margin: 0; overflow-x: auto; font-size: 0.75rem; line-height: 1.5; color: #c9d1d9; max-height: 320px; overflow-y: auto;"><code><span style="color: #8b949e;">// Fee-Sponsored USDC Payment - Zero network fees for sender</span>
+<span style="color: #ff7b72;">const</span> { Keypair, Networks, TransactionBuilder, Asset, Account } <span style="color: #ff7b72;">=</span>
+    require(<span style="color: #a5d6ff;">'@stellar/stellar-sdk'</span>);
+
+<span style="color: #ff7b72;">const</span> SERVER <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">'https://mainnet.stellar.apicharge.com'</span>;
+<span style="color: #ff7b72;">const</span> USDC <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">new</span> Asset(<span style="color: #a5d6ff;">'USDC'</span>, <span style="color: #a5d6ff;">'GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN'</span>);
+
+<span style="color: #ff7b72;">const</span> SECRET_KEY <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">'YOUR_SECRET_KEY'</span>;
+<span style="color: #ff7b72;">const</span> RECIPIENT <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">'GXXXX...'</span>;
+<span style="color: #ff7b72;">const</span> AMOUNT <span style="color: #ff7b72;">=</span> <span style="color: #a5d6ff;">'1.00'</span>;
+
+<span style="color: #ff7b72;">const</span> keypair <span style="color: #ff7b72;">=</span> Keypair.fromSecret(SECRET_KEY);
+
+<span style="color: #8b949e;">// 1. Get quote and purchase token</span>
+<span style="color: #ff7b72;">const</span> quotes <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> fetch(`${SERVER}/apicharge/quote`).then(r <span style="color: #ff7b72;">=></span> r.json());
+<span style="color: #ff7b72;">const</span> submitQuote <span style="color: #ff7b72;">=</span> quotes.quotes.find(q <span style="color: #ff7b72;">=></span>
+    q.signableEntity.routeId.includes(<span style="color: #a5d6ff;">'stablecoin-submit-classic-tx'</span>));
+<span style="color: #ff7b72;">const</span> token <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> purchaseAccessToken(SERVER, submitQuote, keypair);
+
+<span style="color: #8b949e;">// 2. Build ZERO-FEE transaction</span>
+<span style="color: #ff7b72;">const</span> sequence <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> getAccountSequence(keypair.publicKey());
+<span style="color: #ff7b72;">const</span> account <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">new</span> Account(keypair.publicKey(), sequence);
+
+<span style="color: #ff7b72;">const</span> tx <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">new</span> TransactionBuilder(account, {
+    fee: <span style="color: #a5d6ff;">'0'</span>,  <span style="color: #8b949e;">// ZERO FEE!</span>
+    networkPassphrase: Networks.PUBLIC
+})
+.addOperation(Operation.payment({ destination: RECIPIENT, asset: USDC, amount: AMOUNT }))
+.setTimeout(<span style="color: #79c0ff;">300</span>).build();
+tx.sign(keypair);
+
+<span style="color: #8b949e;">// 3. Submit - ApiCharge sponsors the network fee!</span>
+<span style="color: #ff7b72;">const</span> result <span style="color: #ff7b72;">=</span> <span style="color: #ff7b72;">await</span> fetch(`${SERVER}/apicharge/stablecoin/submit-transaction`, {
+    method: <span style="color: #a5d6ff;">'POST'</span>,
+    headers: { <span style="color: #a5d6ff;">'apicharge'</span>: token, <span style="color: #a5d6ff;">'Content-Type'</span>: <span style="color: #a5d6ff;">'application/json'</span> },
+    body: JSON.stringify({ transactionXdr: tx.toXDR() })
+}).then(r <span style="color: #ff7b72;">=></span> r.json());
+console.log(`TX Hash: ${result.transactionHash}`);</code></pre>
+                    </div>
+                    <a href="stablecoin_example.py" download id="download-payment" style="display: inline-block; margin-top: 12px; background: #238636; color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">Download Full Example</a>
                 </div>
-                <a href="https://apicharge.blob.core.windows.net/$web/stablecoin_example.py" download style="display: inline-block; margin-top: 12px; background: #238636; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 0.9rem; font-weight: 500;">Download Full Example</a>
-            </div>
-            <div style="color: #8b949e; font-size: 0.85rem; line-height: 1.6;">
-                <p style="margin: 0 0 12px 0;"><strong style="color: #c9d1d9;">How it works:</strong></p>
-                <ol style="margin: 0; padding-left: 20px;">
-                    <li style="margin-bottom: 8px;">Purchase an access token by signing a USDC payment to the server</li>
-                    <li style="margin-bottom: 8px;">Build your Stellar transaction with <code style="background: #161b22; padding: 2px 6px; border-radius: 4px;">fee=0</code></li>
-                    <li style="margin-bottom: 8px;">Submit via <code style="background: #161b22; padding: 2px 6px; border-radius: 4px;">/apicharge/stablecoin/submit-transaction</code></li>
-                    <li style="margin-bottom: 8px;">ApiCharge wraps it in a fee-bump and submits to the network</li>
-                </ol>
-                <p style="margin: 16px 0 8px 0;"><strong style="color: #c9d1d9;">For standard RPC calls:</strong></p>
-                <p style="margin: 0;">Purchase an RPC access token and use the <code style="background: #161b22; padding: 2px 6px; border-radius: 4px;">/soroban/developer/</code> pass-through route with the <code style="background: #161b22; padding: 2px 6px; border-radius: 4px;">apicharge</code> header for all your Stellar JSON-RPC calls.</p>
+                <div style="color: #8b949e; font-size: 0.82rem; line-height: 1.6;">
+                    <p style="margin: 0 0 10px 0;"><strong style="color: #3fb950;">Fee-Sponsored Payment</strong></p>
+                    <p style="margin: 0 0 8px 0;">Send USDC/EURC with zero network fees. ApiCharge wraps your transaction in a fee-bump.</p>
+                    <p style="margin: 0 0 8px 0;"><strong style="color: #c9d1d9;">How it works:</strong></p>
+                    <ol style="margin: 0 0 12px 0; padding-left: 18px;">
+                        <li>Build TX with <code style="background: #161b22; padding: 1px 4px; border-radius: 3px; font-size: 0.7rem;">fee=0</code></li>
+                        <li>Sign with your key</li>
+                        <li>Submit to ApiCharge</li>
+                        <li>Server fee-bumps & submits</li>
+                    </ol>
+                    <p style="margin: 0;"><strong style="color: #c9d1d9;">Supports:</strong> Classic payments & Soroban contracts</p>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Hidden full example for copy -->
-    <pre id="python-example-full" style="display: none;"># Install: pip install stellar-sdk requests
-import requests
-from stellar_sdk import Keypair, Network, TransactionBuilder, Asset
 
-SERVER = "https://mainnet.stellar.apicharge.com"
-USDC = Asset("USDC", "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN")
+    <script>
+        let currentExample = 'rpc';
+        let currentLang = 'python';
 
-# 1. Get quote and purchase access token (see full example)
-token = purchase_access_token(quote, keypair)
+        function showExample(example) {
+            // Hide all panels
+            document.querySelectorAll('.example-panel').forEach(p => p.style.display = 'none');
+            // Show selected panel
+            document.getElementById('example-' + example).style.display = 'block';
 
-# 2. Build zero-fee transaction
-tx = TransactionBuilder(account, network_passphrase=Network.PUBLIC_NETWORK_PASSPHRASE, base_fee=0)
-    .append_payment_op(recipient, USDC, "1.00")
-    .build()
-tx.sign(keypair)
+            // Update button styles
+            document.querySelectorAll('.carousel-btn').forEach(b => {
+                b.style.background = '#21262d';
+                b.style.color = '#c9d1d9';
+                b.style.border = '1px solid #30363d';
+            });
+            document.getElementById('btn-' + example).style.background = '#238636';
+            document.getElementById('btn-' + example).style.color = '#fff';
+            document.getElementById('btn-' + example).style.border = 'none';
 
-# 3. Submit - ApiCharge sponsors the fee!
-requests.post(f"{SERVER}/apicharge/stablecoin/submit-transaction",
-    headers={"apicharge": token}, json={"transactionXdr": tx.to_xdr()})</pre>
+            currentExample = example;
+            updateCodeDisplay();
+            updateDownloadLink();
+        }
+
+        function showLang(lang) {
+            currentLang = lang;
+
+            // Update button styles
+            document.getElementById('btn-python').style.background = lang === 'python' ? '#3572A5' : '#21262d';
+            document.getElementById('btn-python').style.color = lang === 'python' ? '#fff' : '#c9d1d9';
+            document.getElementById('btn-javascript').style.background = lang === 'javascript' ? '#f7df1e' : '#21262d';
+            document.getElementById('btn-javascript').style.color = lang === 'javascript' ? '#000' : '#c9d1d9';
+
+            updateCodeDisplay();
+            updateDownloadLink();
+        }
+
+        function updateCodeDisplay() {
+            // Hide all code blocks in current example
+            document.querySelectorAll('#example-' + currentExample + ' .code-block').forEach(b => b.style.display = 'none');
+            // Show selected language
+            document.getElementById('code-' + currentExample + '-' + currentLang).style.display = 'block';
+        }
+
+        function updateDownloadLink() {
+            const downloadBtn = document.getElementById('download-' + currentExample);
+            if (downloadBtn) {
+                const files = {
+                    'rpc': { python: 'rpc_passthrough_example.py', javascript: 'rpc_passthrough_example.js' },
+                    'activate-basic': { python: 'activate_account_basic_example.py', javascript: 'activate_account_basic_example.js' },
+                    'activate-full': { python: 'activate_account_full_example.py', javascript: 'activate_account_full_example.js' },
+                    'payment': { python: 'stablecoin_example.py', javascript: 'stablecoin_example.js' }
+                };
+                downloadBtn.href = files[currentExample][currentLang];
+            }
+        }
+
+        function copyCode(example, lang) {
+            const codeBlock = document.getElementById('code-' + example + '-' + lang);
+            const code = codeBlock.querySelector('code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = codeBlock.querySelector('button');
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy', 2000);
+            });
+        }
+    </script>
 </div>

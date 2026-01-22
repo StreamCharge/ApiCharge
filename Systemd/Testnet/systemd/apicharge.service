@@ -1,0 +1,37 @@
+[Unit]
+Description=ApiCharge Monetization Proxy
+Documentation=https://apicharge.com
+After=network.target apicharge-soroban-rpc.service
+Requires=apicharge-soroban-rpc.service
+
+[Service]
+Type=simple
+User=apicharge
+Group=apicharge
+WorkingDirectory=/opt/apicharge
+ExecStart=/opt/apicharge/ApiChargePrototype
+Restart=always
+RestartSec=5
+TimeoutStartSec=30
+TimeoutStopSec=30
+
+# Environment file for secrets (signing key, etc.)
+EnvironmentFile=/etc/apicharge/apicharge.env
+
+# .NET environment
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/apicharge
+ReadOnlyPaths=/etc/apicharge /opt/apicharge
+
+# Allow binding to privileged ports (80, 443)
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target

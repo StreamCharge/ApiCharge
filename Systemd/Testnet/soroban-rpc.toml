@@ -1,0 +1,35 @@
+# Soroban RPC configuration for ApiCharge bare metal deployment (Testnet)
+#
+# IMPORTANT: This configuration uses reduced history retention (~4 hours)
+# to minimize disk usage. For applications requiring deep history,
+# use the Docker deployment or connect to public RPC endpoints.
+
+# Admin endpoint (internal only, not exposed)
+ADMIN_ENDPOINT = "127.0.0.1:8001"
+
+# RPC endpoint (ApiCharge connects here)
+ENDPOINT = "127.0.0.1:8000"
+
+# Stellar Testnet Network
+NETWORK_PASSPHRASE = "Test SDF Network ; September 2015"
+
+# History archives (SDF testnet)
+HISTORY_ARCHIVE_URLS = [
+    "https://history.stellar.org/prd/core-testnet/core_testnet_001"
+]
+
+# REDUCED RETENTION: ~4 hours (2880 ledgers at ~5 sec/ledger)
+HISTORY_RETENTION_WINDOW = 2880
+
+# Friendbot for testnet account funding
+FRIENDBOT_URL = "https://friendbot-testnet.stellar.org/"
+
+# Captive Core configuration
+CAPTIVE_CORE_CONFIG_PATH = "/etc/apicharge/stellar-core.cfg"
+CAPTIVE_CORE_STORAGE_PATH = "/var/lib/apicharge/stellar/captive-core"
+CAPTIVE_CORE_USE_DB = true
+STELLAR_CAPTIVE_CORE_HTTP_PORT = 11626
+STELLAR_CORE_BINARY_PATH = "/usr/bin/stellar-core"
+
+# Database
+DB_PATH = "/var/lib/apicharge/stellar/soroban-rpc-db.sqlite"

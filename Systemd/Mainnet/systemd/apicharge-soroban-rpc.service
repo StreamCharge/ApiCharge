@@ -1,0 +1,33 @@
+[Unit]
+Description=ApiCharge Soroban RPC Server (Stellar)
+Documentation=https://apicharge.com
+After=network.target apicharge-redis.service
+Requires=apicharge-redis.service
+
+[Service]
+Type=simple
+User=apicharge
+Group=apicharge
+WorkingDirectory=/var/lib/apicharge/stellar
+ExecStart=/usr/bin/stellar-rpc --config-path /etc/apicharge/soroban-rpc.toml
+Restart=always
+RestartSec=10
+TimeoutStartSec=300
+TimeoutStopSec=60
+
+# Environment
+Environment=STELLAR_CORE_BINARY_PATH=/usr/bin/stellar-core
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/apicharge/stellar
+
+# Resource limits (adjust based on your hardware)
+LimitNOFILE=65535
+LimitNPROC=65535
+
+[Install]
+WantedBy=multi-user.target

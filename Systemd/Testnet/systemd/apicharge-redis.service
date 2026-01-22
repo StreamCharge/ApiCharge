@@ -1,0 +1,24 @@
+[Unit]
+Description=ApiCharge Redis Cache
+Documentation=https://apicharge.com
+After=network.target
+
+[Service]
+Type=simple
+User=apicharge
+Group=apicharge
+ExecStart=/usr/bin/redis-server /etc/apicharge/redis.conf
+ExecStop=/usr/bin/redis-cli shutdown
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+
+# Security hardening
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/apicharge/redis
+
+[Install]
+WantedBy=multi-user.target

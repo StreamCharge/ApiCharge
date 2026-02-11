@@ -1,0 +1,19 @@
+{
+  "name": "x402-apicharge-client-test",
+  "version": "1.0.0",
+  "description": "x402 apicharge scheme reference client — demonstrates zero-Stellar-SDK payment flow",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "tsx": "^4.19.0",
+    "@types/node": "^22.0.0"
+  }
+}

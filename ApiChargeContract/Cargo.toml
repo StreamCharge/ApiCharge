@@ -1,0 +1,39 @@
+[package]
+name = "apicharge"
+version = "0.1.0"
+authors = ["Frank Szendzielarz"]
+license = "Proprietary"
+edition = "2021"
+publish = false
+rust-version = "1.84"
+
+[lib]
+crate-type = ["cdylib"]
+doctest = false
+
+[dependencies]
+soroban-sdk = {version = "23.0.2"}
+serde = { version = "1", default-features = false, features = ["derive"] }
+serde-json-core = { version = "0.5.1", default-features = false }
+base64 =  { version = "0.22.1", default-features = false }
+
+
+[dev-dependencies]
+soroban-sdk = {version = "23.0.2", features = ["testutils"]}
+stellar-xdr = {version = "23.0", default-features = false, features = ["std", "curr"]}
+sha256 = "1.4.0"
+
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = "symbols"
+debug-assertions = false
+panic = "abort"
+codegen-units = 1
+lto = true
+
+[profile.release-with-logs]
+inherits = "release"
+debug-assertions = true

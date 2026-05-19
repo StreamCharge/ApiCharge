@@ -9,8 +9,6 @@ Please use this repo to log issues and request features.
 
 Information, guidance, documentation, and SDK usage code will be transferred to this site for the ApiCharge desktop B2B apps, mobile consumer apps, and server stablecoin/digital currency pricing and payment gateway. 
 
-Public beta progress planned for the week of 27/Oct/2025
-
 More to come...
 
 Your input, feedback and help is warmly appreciated.
@@ -23,7 +21,7 @@ For the full architecture and detailed technical documents of the project, pleas
 <img width="1295" height="613" alt="image" src="https://github.com/user-attachments/assets/2bdd0a1b-2d44-4457-bc1e-e25ba0dc0c19" />
 
 
-This section is for the benefit of SCF reviewers who need a distilled version of the platform, its changes, and direction for ML and AI use cases.
+This section is for the benefit of those who need a distilled version of the platform, its changes, and direction for ML and AI use cases.
 
 ### Context
 
